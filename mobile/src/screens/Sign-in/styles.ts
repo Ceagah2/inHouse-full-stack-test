@@ -53,5 +53,5 @@ export const FooterLink = styled.Text`
   font-family: ${theme.weights.bold};
 `;
 
-FormTitle.defaultProps = FormTitle.defaultProps || {};
-FormTitle.defaultProps.maxFontSizeMultiplier = 1.2;
+FooterLink.defaultProps = FooterLink.defaultProps || {};
+FooterLink.defaultProps.maxFontSizeMultiplier = 1.2;

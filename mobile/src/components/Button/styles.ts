@@ -9,6 +9,7 @@ export const Container = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 18px;
+  margin-top: 10px;
 `;
 
 

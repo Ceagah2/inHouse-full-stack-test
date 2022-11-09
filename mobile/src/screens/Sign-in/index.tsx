@@ -54,16 +54,16 @@ const SignIn: React.FC = () => {
           <FormTitle>Login</FormTitle>
         <InputContainer>
           <Input 
-          id="email"
-          span="Email"
-          borderBottom={borderBottom}
-          inputImage={UserIcon}
-          name="email"
-          value={userEmail}
-          onChangeText={(text) => setUserEmail(text)}
-          type="email"
-          inputCheckerImage={checkerImage}
-          textContentType ="emailAddress"
+            id="email"
+            span="Email"
+            borderBottom={borderBottom}
+            inputImage={UserIcon}
+            name="email"
+            value={userEmail}
+            onChangeText={(text) => setUserEmail(text)}
+            type="email"
+            inputCheckerImage={checkerImage}
+            textContentType ="emailAddress"
           />
           <Input 
             id ="password"

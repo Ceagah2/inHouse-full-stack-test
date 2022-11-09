@@ -16,9 +16,10 @@ interface InputProps {
   name: string; 
   value: string;
   onChangeText(): void;
-  type: string;
+  type?: string;
   secureTextEntry?: boolean;
   inputCheckerImage?: Object;
+  keyboardType?: string;
 }
 
 const Input = (props: InputProps) => {
@@ -33,6 +34,7 @@ const Input = (props: InputProps) => {
         onChangeText={props.onChangeText}
         type={props.type} 
         secureTextEntry={props.secureTextEntry}
+        keyboardType={props.keyboardType}
         />
         <InputChecker source={props.inputCheckerImage}/>
       </InputContainer>
