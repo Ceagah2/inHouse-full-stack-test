@@ -1,9 +1,20 @@
 import React from 'react';
 
-import { Container } from './styles';
+import { Container, ButtonText } from './styles';
 
-const Button: React.FC = () => {
-  return <Container />;
+interface ButtonProps {
+  onPress(): void;
+  text: string;
+}
+
+const Button = (props:ButtonProps) => {
+  return(
+    <Container onPress={() => props.onPress()}>
+      <ButtonText>
+        {props.text}
+      </ButtonText>
+    </Container>
+  );
 }
 
 export default Button;

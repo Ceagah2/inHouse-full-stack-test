@@ -1,14 +1,19 @@
 import React from 'react';
-import { Text } from 'react-native';
-
-import { Container } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { Container, Button, ButtonText } from './styles';
 
 const SignUp: React.FC = () => {
+  const navigation = useNavigation();
   return(
     <Container>
-      <Text>
-        Sign-up Screen
-      </Text>
+      <ButtonText>
+          Sign-up Screen
+      </ButtonText>
+      <Button onPress={() => navigation.navigate('Main')}>
+        <ButtonText>
+          To Main screen
+        </ButtonText>
+      </Button>
     </Container>
   );
 }
