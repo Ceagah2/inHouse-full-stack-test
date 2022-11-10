@@ -3,5 +3,4 @@
   "compilerOptions": {
     "strict": true
   },
-  "files": ["./src/@types/index.d.ts"]
 }

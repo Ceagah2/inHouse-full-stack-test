@@ -1,13 +1,13 @@
-import React , {useState, useEffect}from 'react';
-import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
 import HeaderImg from '../../assets/bike-boy.png';
 import UserIcon from '../../assets/user.png';
 import LockIcon from '../../assets/lock.png';
-import CheckedIcon from '../../assets/Check.png';
-import themes from '../../themes';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import { Api } from '../../services/api';
+import { Platform } from 'react-native';
+import React , { useState }from 'react';
 import { 
   Container,
   Header,
@@ -20,29 +20,20 @@ import {
   FooterLink
 } from './styles';
 
-
-
 const SignIn: React.FC = () => {
   const navigation = useNavigation();
-  const [checker, setChecker] = useState<boolean>();
-  const [borderBottom, setBorderBottom] = useState<string>('themes.colors.black');
-  const [ checkerImage, setCheckerImage ] = useState<Object>()
-  const [userEmail, setUserEmail] = useState<string>('')
-  const [userPassword, setUserPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
-  useEffect(()=> {
-    if(userEmail === 'carlos@gmail.com' ){
-      setChecker(true)
-    } else {
-      setChecker(false)
+  const handleLogin = async () => {
+    const data = {email, password}
+    try{
+      const response = await Api.post('/sessions', {data});
+      const jsonValue = JSON.stringify(response)
+      await AsyncStorage.setItem('@userData', jsonValue)
+    } catch (err) {
+      console.log(JSON.stringify(err))
     }
-    if(checker === true){
-      setBorderBottom('themes.colors.green');
-      setCheckerImage(CheckedIcon)
-    }
-  },[userEmail])
-  const handleSubmit = () => {
-    console.log('LOGGED');
   }
   
   return(
@@ -56,13 +47,11 @@ const SignIn: React.FC = () => {
           <Input 
             id="email"
             span="Email"
-            borderBottom={borderBottom}
             inputImage={UserIcon}
             name="email"
-            value={userEmail}
-            onChangeText={(text) => setUserEmail(text)}
+            value={email}
+            onChangeText={(e:string) => setEmail(e)}
             type="email"
-            inputCheckerImage={checkerImage}
             textContentType ="emailAddress"
           />
           <Input 
@@ -70,13 +59,13 @@ const SignIn: React.FC = () => {
             span="Senha"
             inputImage={LockIcon}
             name="password"
-            value={userPassword}
-            onChangeText={(text) => setUserPassword(text)}
+            value={password}
+            onChangeText={(p:string) => setPassword(p)}
             type="password"
             secureTextEntry 
           />
         </InputContainer>
-        <Button text='Acessar' onPress={() => handleSubmit()} />
+        <Button text='Acessar' onPress={() => handleLogin()} />
       </LoginForm>
       <Footer>
           <FooterText>Não tem uma conta?</FooterText>
