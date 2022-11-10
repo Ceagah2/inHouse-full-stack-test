@@ -10,6 +10,7 @@ const colors = {
 }
 const weights = {
   bolder: 'Poppins_800ExtraBold',
+  logged: 'Poppins_700Bold',
   bold: 'Poppins_600SemiBold',
   standard: 'Poppins_500Medium',
   thin: 'Poppins_300Light'
