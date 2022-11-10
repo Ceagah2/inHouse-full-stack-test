@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../../components/Button';
 import Input from '../../components/Input'
-
+import {Api} from '../../services/api'
 import BasketIcon from '../../assets/basket.png';
 import PhoneIcon from '../../assets/phone.png';
 import MailIcon from '../../assets/mail.png';
@@ -26,17 +26,38 @@ import {
 } from './styles';
 
 const SignUp: React.FC = () => {
-  const [newAccountData, setNewAccountData] = useState({
-    userName: '',
-    userEmail: '',
-    userPhone: '',
-    userPassword: '',
-    confirmPassword: '',
-  })
+  const [checkedPassword, setCheckedPassword] = useState<boolean>();
+  const [name, setName] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [email, setEmail] = useState<string>();	
+  const [phone, setPhone] = useState<string>();
 
-  const CheckPassword = ({userPassword, confirmPassword}) => {
-    if(userPassword !== confirmPassword){
-      Alert.alert("ATENÇÃO", "As senhas não coincidem. por favor verifique")
+  const CheckPassword = () => {
+    if(password !== confirmPassword){
+      Alert.alert("Warning", "Your password does not match. Please verify.");
+      setCheckedPassword(false);
+    } else {
+      setCheckedPassword(true);
+    }
+  }
+
+  const handleNewUser = async () => {
+    const data = {
+      name,
+      password,
+      email,
+      phone
+    }
+    CheckPassword();
+    if(checkedPassword === true) {
+      try {
+        await Api.post('/api/users', data)
+        Alert.alert('Successfully', 'User successfully created.')
+        navigation.navigate('SignIn')
+      } catch (error) {
+        Alert.alert(error.message);
+      }
     }
   }
 
@@ -59,8 +80,8 @@ const SignUp: React.FC = () => {
             span="Nome"
             inputImage={UserIcon}
             name="name"
-            value={newAccountData.userName}
-            onChangeText={() => console.log('NAME')}
+            value={name}
+            onChangeText={(n:string) => setName(n)}
             type="text"
           />
           <Input 
@@ -68,8 +89,8 @@ const SignUp: React.FC = () => {
             span="Email"
             inputImage={MailIcon}
             name="email"
-            value={newAccountData.userEmail}
-            onChangeText={() => console.log('userEmail')}
+            value={email}
+            onChangeText={(e:string) => setEmail(e)}
             type="email"
           />
           <Input 
@@ -77,8 +98,8 @@ const SignUp: React.FC = () => {
             span="Telefone"
             inputImage={PhoneIcon}
             name="phone"
-            value={newAccountData.userPhone}
-            onChangeText={() => console.log('userPhone')}
+            value={phone}
+            onChangeText={(p:number) => setPhone(p)}
             keyboardType="phone-pad" 
           />
           <Input 
@@ -86,8 +107,8 @@ const SignUp: React.FC = () => {
             span="Senha"
             inputImage={LockIcon}
             name="password"
-            value={newAccountData.userPassword}
-            onChangeText={() => console.log('userPassword')}
+            value={password}
+            onChangeText={(p:string) => setPassword(p)}
             secureTextEntry={true}
           />
             <Input 
@@ -95,11 +116,11 @@ const SignUp: React.FC = () => {
             span="Confirme a senha"
             inputImage={LockIcon}
             name="confirmPassword"
-            value={newAccountData.confirmPassword}
-            onChangeText={() => console.log('confirmPassword')}
+            value={confirmPassword}
+            onChangeText={(cp:string) => setConfirmPassword(cp)}
             secureTextEntry={true}
           />
-        <Button text='Criar Conta' onPress={() => console.log('Post new account')} />
+        <Button text='Criar Conta' onPress={() => handleNewUser()} />
       </FormContainer>
       <Footer>
         <FooterText>Já tem uma conta?</FooterText>
